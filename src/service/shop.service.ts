@@ -7,7 +7,7 @@ import { Observable }     from 'rxjs/Observable';
 @Injectable()
 export class ShopService {
   // private headers = new Headers({'Content-Type': 'application/json'});
-  private apiUrl = 'http://localhost:8000/api/shops';  // URL to web api
+  private apiUrl = 'http://okaokake.sakura.ne.jp/lunch/api/shops';  // URL to web api
   constructor(private http: Http) { }
 
   search(category): Observable<any> {

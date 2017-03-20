@@ -1,0 +1,30 @@
+<ion-header *ngIf="shop">
+  <ion-navbar>
+    <div class="information">
+      <span>{{shop.name}}</span>
+      <div class="lunch">
+        <span class="icon"></span>
+        ~{{ shop.lunch }}円
+      </div>
+      <div class="holiday">
+        <span class="icon"></span>
+        {{ shop.holiday }}
+      </div>
+      <div class="category">
+        <span class="icon"></span>
+        <span *ngFor="let cate of shop.category">{{cate.category}} </span>
+      </div>
+    </div>
+    <button (click)="goToDetail(shop.id)">詳しく見る</button>
+    <button (click)="addTab(shop.id, shop.name)">後で見る</button>
+    <a href="{{shop.url}}" target="_blank"><button>食べログへ</button></a>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-fab top right>
+    <button ion-fab mini (click)="showRadio()" style="background:red"><ion-icon name="search"></ion-icon></button>
+  </ion-fab>
+
+  <div #map id="map"></div>
+</ion-content>

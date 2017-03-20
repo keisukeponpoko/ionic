@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title *ngIf="shop">{{shop.name}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="shop" class="selection">
+    <ion-card>
+      <img src="/assets/img/sample.jpg"/>
+      <ion-card-content>
+        <h2 class="card-title">
+          {{shop.name}}
+        </h2>
+        <p>
+          <span *ngFor="let cate of shop.category">{{cate.category}} </span>
+        </p>
+      </ion-card-content>
+      <ion-list>
+        <ion-item>
+          <ion-icon item-left name="sunny"></ion-icon>
+          <h3>昼予算</h3>
+          <ion-note item-right>〜{{shop.lunch}}円</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="moon"></ion-icon>
+          <h3>夜予算</h3>
+          <ion-note item-right>〜{{shop.dinner}}円</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="thumbs-up"></ion-icon>
+          <h3>評価点</h3>
+          <ion-note item-right>{{shop.point}}点</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="star"></ion-icon>
+          <h3>口コミ</h3>
+          <ion-note item-right>{{shop.review}}件</ion-note>
+        </ion-item>
+        <ion-item>
+          <ion-icon item-left name="time"></ion-icon>
+          <h3>定休日</h3>
+          <ion-note item-right>{{shop.holiday}}</ion-note>
+        </ion-item>
+        <a href="{{shop.url}}" target="_blank">
+          <button ion-item>
+            <h2>食べログ</h2>
+          </button>
+        </a>
+      </ion-list>
+      <!-- <ion-row no-padding>
+        <ion-col>
+          <button clear small (click)="favorite($event, property)">
+            <ion-icon name="star"></ion-icon>
+            Favorite
+          </button>
+        </ion-col>
+        <ion-col text-center>
+          <button clear small (click)="like($event, property)">
+            <ion-icon name="thumbs-up"></ion-icon>
+            Like
+          </button>
+        </ion-col>
+        <ion-col text-right>
+          <button clear small (click)="share($event, property)">
+            <ion-icon name="share-alt"></ion-icon>
+            Share
+          </button>
+        </ion-col>
+      </ion-row> -->
+    </ion-card>
+  </div>
+</ion-content>

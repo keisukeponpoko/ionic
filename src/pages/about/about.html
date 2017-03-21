@@ -7,7 +7,7 @@
 <ion-content>
   <div *ngIf="shop" class="selection">
     <ion-card>
-      <img src="/assets/img/sample.jpg"/>
+      <!-- <img src="/assets/img/sample.jpg"/> -->
       <ion-card-content>
         <h2 class="card-title">
           {{shop.name}}
@@ -47,7 +47,28 @@
             <h2>食べログ</h2>
           </button>
         </a>
+        <ion-item *ngFor="let point of points">
+          <ion-label>{{ point.name }}</ion-label>
+          <ion-checkbox color="dark" (ionChange)="changePoints($event, point.id, shop.id)" [checked]="isChecked(point.id)"></ion-checkbox>
+        </ion-item>
       </ion-list>
+    </ion-card>
+    <ion-card>
+      <ion-card-content>
+        <h2 class="card-title">
+          コメント
+        </h2>
+      </ion-card-content>
+      <ul class="commentList">
+        <li *ngFor="let comment of shop.comment">{{ comment.comment }}</li>
+      </ul>
+      <ion-item>
+        <ion-textarea [(ngModel)]="comment" name="comment" style="border:1px solid #ccc"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <button ion-button (click)="addComment(shop.id)" block>Add Comment</button>
+      </ion-item>
+
       <!-- <ion-row no-padding>
         <ion-col>
           <button clear small (click)="favorite($event, property)">

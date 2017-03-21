@@ -1,28 +1,59 @@
 import { Injectable }    from '@angular/core';
-import {Http} from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 import { Observable }     from 'rxjs/Observable';
 
 @Injectable()
 export class ShopService {
-  // private headers = new Headers({'Content-Type': 'application/json'});
-  private apiUrl = 'http://okaokake.sakura.ne.jp/lunch/api/shops';  // URL to web api
+  private headers = new Headers({'Content-Type': 'application/json'});
+  private apiUrl = 'http://okaokake.sakura.ne.jp/lunch/api';  // URL to web api
   constructor(private http: Http) { }
 
-  search(category): Observable<any> {
-    let url = `${this.apiUrl}/`;
-    if (category) {
-      url = `${this.apiUrl}/category/${category}/`;
-    }
+  getShops(): Observable<any> {
+    const url = `${this.apiUrl}/shops/`;
     return this.http.get(url).map(res=>res.json());
   }
 
-  get(id): Observable<any> {
-    const url = `${this.apiUrl}/${id}/`;
-    return this.http.get(url)
+  searchCategory(category): Observable<any> {
+    const url = `${this.apiUrl}/shops/category/${category}/`;
+    return this.http.get(url).map(res=>res.json());
+  }
+
+  getShop(id): Observable<any> {
+    const url = `${this.apiUrl}/shops/${id}/`;
+    return this.http.get(url).map(res=>res.json());
+  }
+
+  getPoints(): Observable<any> {
+    const url = `${this.apiUrl}/points/`;
+    return this.http.get(url).map(res=>res.json());
+  }
+
+  searchPoint(point): Observable<any> {
+    const url = `${this.apiUrl}/shops/point/${point}/`;
+    return this.http.get(url).map(res=>res.json());
+  }
+
+  postShopPoint(shopId, pointId): Observable<any> {
+    const url = `${this.apiUrl}/shoppoints/`;
+    return this.http
+      .post(url, JSON.stringify({shop_id: shopId, point_id: pointId}), {headers: this.headers})
       .map(res=>res.json());
   }
+
+  deleteShopPoint(id): Observable<any> {
+    const url = `${this.apiUrl}/shoppoints/${id}/`;
+    return this.http.delete(url, {headers: this.headers}).map(res=>res.json());
+  }
+
+  postComment(shopId, comment): Observable<any> {
+    const url = `${this.apiUrl}/comments/`;
+    return this.http
+      .post(url, JSON.stringify({shop_id: shopId, comment: comment}), {headers: this.headers})
+      .map(res=>res.json());
+  }
+
   // getTask(id: number): Promise<Hero> {
   //   const url = `${this.heroesUrl}/${id}`;
   //   return this.http.get(url)

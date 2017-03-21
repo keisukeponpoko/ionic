@@ -19,9 +19,13 @@ export class HomePage {
   shop: any;
   markers: any;
   category: any;
+  points: any;
 
   constructor(public navCtrl: NavController, public events: Events, private shopService: ShopService, public alertCtrl: AlertController) {
     this.loadMap();
+    this.shopService.getPoints().subscribe((data) => {
+      this.points = data;
+    });
   }
 
   loadMap() {
@@ -42,24 +46,25 @@ export class HomePage {
     }).addTo(this.map);
 
     this.markers = L.markerClusterGroup();
-    this.setMarker();
+
+    this.shopService.getShops().subscribe((data) => {
+      this.addMarker(data);
+    });
   }
 
-  setMarker() {
-    this.shopService.search(this.category).subscribe((data) => {
-      for (var i = 0; i < data.length; i++) {
-        let shop = data[i];
-        let name = shop['name'];
-        let marker = L.marker(new L.LatLng(shop['latitude'], shop['longitude']), { title: name, alt: `${i}` });
-        marker.on('click', (select) => {
-          let no = select.target.options.alt;
-          this.shop = data[no];
-        });
-        this.markers.addLayer(marker);
-      }
+  addMarker(data) {
+    for (var i = 0; i < data.length; i++) {
+      let shop = data[i];
+      let name = shop['name'];
+      let marker = L.marker(new L.LatLng(shop['latitude'], shop['longitude']), { title: name, alt: `${i}` });
+      marker.on('click', (select) => {
+        let no = select.target.options.alt;
+        this.shop = data[no];
+      });
+      this.markers.addLayer(marker);
+    }
 
-      this.map.addLayer(this.markers);
-    });
+    this.map.addLayer(this.markers);
   }
 
   goToDetail(id) {
@@ -70,7 +75,7 @@ export class HomePage {
     this.events.publish('add:shop', id, name, AboutPage);
   }
 
-  showRadio() {
+  showCategoryRadio() {
     let alert = this.alertCtrl.create();
     alert.setTitle('食べたい料理は？');
 
@@ -79,7 +84,33 @@ export class HomePage {
       alert.addInput({
         type: 'radio',
         label: categoryList[i],
-        value: categoryList[i]
+        value: `${i}`,
+      });
+    }
+
+    alert.addButton('Cancel');
+    alert.addButton({
+      text: 'Search',
+      handler: data => {
+        this.markers.clearLayers();
+        this.shopService.searchCategory(data).subscribe((data) => {
+          this.addMarker(data);
+        });
+      }
+    });
+    alert.present();
+  }
+
+  showPointRadio() {
+    let alert = this.alertCtrl.create();
+    alert.setTitle('おすすめポイント');
+
+    let data = this.points;
+    for (var i = 0; i < data.length; i++) {
+      alert.addInput({
+        type: 'radio',
+        label: data[i].name,
+        value: data[i].id,
       });
     }
 
@@ -89,7 +120,9 @@ export class HomePage {
       handler: data => {
         this.category = data;
         this.markers.clearLayers();
-        this.setMarker();
+        this.shopService.searchPoint(data).subscribe((data) => {
+          this.addMarker(data);
+        });
       }
     });
     alert.present();

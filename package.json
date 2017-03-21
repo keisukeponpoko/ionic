@@ -21,8 +21,8 @@
     "@angular/platform-server": "2.4.8",
     "@ionic/storage": "2.0.0",
     "@types/leaflet": "^1.0.56",
-    "@types/leaflet.gridlayer.googlemutant": "^0.4.0",
     "@types/leaflet-markercluster": "^1.0.1",
+    "@types/leaflet.gridlayer.googlemutant": "^0.4.0",
     "ionic-angular": "2.2.0",
     "ionic-native": "2.8.1",
     "ionicons": "3.0.0",
@@ -33,6 +33,9 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "1.1.4",
+    "@types/leaflet-markercluster": "^1.0.1",
+    "leaflet.gridlayer.googlemutant": "^0.5.1",
+    "leaflet.markercluster": "^1.0.4",
     "typescript": "2.0.9"
   },
   "cordovaPlugins": [
